@@ -20,6 +20,5 @@
 </head>
 <body>
    
-   <h1>b.jsp</h1>
 </body>
 </html>
