@@ -1,0 +1,27 @@
+[
+	{
+		"deptno" : 10,
+		"dname" : "총무부1",
+		"loc" : "seoul1"
+	},
+	{
+		"deptno" : 20,
+		"dname" : "총무부2",
+		"loc" : "seoul2"
+	},
+	{
+		"deptno" : 30,
+		"dname" : "총무부3",
+		"loc" : "seoul3"
+	},
+	{
+		"deptno" : 40,
+		"dname" : "총무부4",
+		"loc" : "seoul4"
+	},
+	{
+		"deptno" : 50,
+		"dname" : "총무부5",
+		"loc" : "seoul5"
+	}
+]
