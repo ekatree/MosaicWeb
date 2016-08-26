@@ -21,21 +21,14 @@
 <body>
    <h1>A.jsp</h1>
    
-<<<<<<< HEAD
+
    <ul>
    		<li>spring</li>
    		<li>mybatis</li>
    		<li>jQuary</li>
    		<li>Bootstrap</li>
    </ul>
-=======
-   <ol>
-   		<li>java</li>
-   		<li>javascript</li>
-   		<li>css</li>
-   		<li>html</li>
-   </ol>
-   
+
    
 >>>>>>> 5981b163bdaaf1e15c93e49654200c3d73fdf93e
 </body>
