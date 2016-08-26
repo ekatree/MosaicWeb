@@ -20,9 +20,5 @@
 </head>
 <body>
    
-<<<<<<< HEAD
-=======
-   <h1>b.jsp</h1>
->>>>>>> bdba44df41d3e923b6f2594c46192c2c051ef9fe
 </body>
 </html>
