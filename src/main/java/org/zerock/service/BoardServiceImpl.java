@@ -34,17 +34,6 @@ public class BoardServiceImpl implements BoardService {
     }   
   }
   
-  //
-//  @Override
-//  public void regist(BoardVO board) throws Exception {
-//    dao.create(board);
-//  }
-
-//  @Override
-//  public BoardVO read(Integer bno) throws Exception {
-//    return dao.read(bno);
-//  }
-
 
   @Transactional(isolation=Isolation.READ_COMMITTED)
   @Override
@@ -53,35 +42,25 @@ public class BoardServiceImpl implements BoardService {
     return dao.read(bno);
   }
 
-  
-//  @Override
-//  public void modify(BoardVO board) throws Exception {
-//    dao.update(board);
-//  }
-  
   @Transactional
   @Override
   public void modify(BoardVO board) throws Exception {
     dao.update(board);
-    
     Integer bno = board.getBno();
+    System.out.println("*************************"+"bno =" +bno+"***********************");
     
     dao.deleteAttach(bno);
     
+    System.out.println("*************************modify test***********************");
     String[] files = board.getFiles();
     
     if(files == null) { return; } 
     
     for (String fileName : files) {
+    	System.out.println("**********************"+fileName + " " + "bno = " + bno + "**********************");
       dao.replaceAttach(fileName, bno);
     }
   }
-  
-
-//  @Override
-//  public void remove(Integer bno) throws Exception {
-//    dao.delete(bno);
-//  }
   
   
   @Transactional

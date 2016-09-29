@@ -1,9 +1,9 @@
 package org.zerock.restcontroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import org.zerock.domain.Criteria;
 import org.zerock.service.BoardService;
 
 @RestController
-@RequestMapping("/rboard")
+@RequestMapping("/sboard")
 public class SearchBoardRestController {
 
 	
@@ -27,11 +27,15 @@ public class SearchBoardRestController {
 	BoardService service;
 	
 	@RequestMapping(value = "/list")
-	public List<BoardVO> listPage(Criteria cri) throws Exception{
-		logger.info(cri.toString());
+	public List<BoardVO> listPage(Criteria cri, HttpServletRequest request, int board_id) throws Exception{
 		
+		if(board_id < 1){
+			board_id = 1;
+		}
+		cri.setBoard_id(board_id);
+		logger.debug(cri.toString());
 		List<BoardVO> boards = service.listCriteria(cri);
-			
+
 		return boards;	//Marshall(마샬)
 		
 	}

@@ -8,6 +8,11 @@
 <body>
 
 <style>
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* {font-family: 'Nanum Gothic', sans-serif;}
+
+ .main-sidebar, .main-footer {	display: none;}
+.content-wrapper {	margin: 0px;}
 .fileDrop {
   width: 80%;
   height: 100px;
@@ -16,6 +21,7 @@
   margin: auto;
   
 }
+img{width: 100%;}
 </style>
 
 
@@ -31,15 +37,22 @@
 				<!-- /.box-header -->
 
 <form role="form" action="modifyPage" method="post">
-
+	
+<%-- 	<input type='hidden' name='board_id' value="${cri.board_id}">  --%>
 	<input type='hidden' name='page' value="${cri.page}"> 
 	<input type='hidden' name='perPageNum' value="${cri.perPageNum}">
 	<input type='hidden' name='searchType' value="${cri.searchType}">
 	<input type='hidden' name='keyword' value="${cri.keyword}">
 
 					<div class="box-body">
-
-						<div class="form-group">
+						
+						<div class="form-group" style="display: none;">
+							<label for="exampleInputEmail1">board_id</label> <input type="text"
+								name='board_id' class="form-control" value="${cri.board_id}"
+								readonly="readonly">
+						</div>
+						
+						<div class="form-group" style="display:none;">
 							<label for="exampleInputEmail1">BNO</label> <input type="text"
 								name='bno' class="form-control" value="${boardVO.bno}"
 								readonly="readonly">
@@ -82,6 +95,13 @@
 	</div>
 </form>
 
+			</div>
+			<!-- /.box -->
+		</div>
+		<!--/.col (left) -->
+
+	</div>
+	<!-- /.row -->
 <script type="text/javascript" src="/resources/js/upload.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
@@ -99,7 +119,7 @@
 
 <script>
 $(document).ready(function(){
-		
+
 	var formObj = $("form[role='form']");
 	
 	formObj.submit(function(event){
@@ -121,7 +141,7 @@ $(document).ready(function(){
 	
 	
 	$(".btn-warning").on("click", function(){
-	  self.location = "/sboard/list?page=${cri.page}&perPageNum=${cri.perPageNum}"+
+	  self.location = "/sboard/list?board_id=${cri.board_id}&page=${cri.page}&perPageNum=${cri.perPageNum}"+
 			  "&searchType=${cri.searchType}&keyword=${cri.keyword}";
 	});
 	
@@ -236,12 +256,5 @@ $("#popup_img").on("click", function(){
 
 
 
-			</div>
-			<!-- /.box -->
-		</div>
-		<!--/.col (left) -->
-
-	</div>
-	<!-- /.row -->
 </body>
 </html>

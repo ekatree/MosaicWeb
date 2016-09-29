@@ -21,11 +21,16 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <style type="text/css">
+    .main-sidebar, .main-footer {	display: none;}
+.content-wrapper {	margin: 0px;}
+    </style>
   </head>
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="/resources/index2.html"><b>Zerock</b>Project</a>
+        <a href="/"><b>김문수</b>Project</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>

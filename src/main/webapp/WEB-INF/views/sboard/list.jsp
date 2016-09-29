@@ -7,6 +7,15 @@
 
 <html>
 <head>
+<style type="text/css">
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* {font-family: 'Nanum Gothic', sans-serif;}
+
+
+.main-sidebar, .main-footer {	display: none;}
+.content-wrapper {	margin: 0px;}
+</style>
+
 <title>list.jsp</title>
 </head>
 <body>
@@ -19,7 +28,7 @@
 				<!-- general form elements -->
 				<div class='box'>
 					<div class="box-header with-border">
-						<h3 class="box-title">Board List</h3>
+						<h3 class="box-title">FREE BOARD</h3>
 					</div>
 
 
@@ -73,9 +82,9 @@
 							<c:forEach items="${list}" var="boardVO">
 
 								<tr>
-									<td>${boardVO.bno}</td>
+									<td>${boardVO.rnum}</td>
 									<td><a
-										href='/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardVO.bno}'>
+										href='/sboard/readPage?board_id=${cri.board_id}&${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardVO.bno}'>
 											${boardVO.title} <strong>[ ${boardVO.replycnt} ]</strong>
 									</a></td>
 									<td>${boardVO.writer}</td>
@@ -140,13 +149,15 @@
 <script>
 	$(document).ready(
 			function() {
-
 				$('#searchBtn').on(
 						"click",
 						function(event) {
-
-							self.location = "list"
-									+ '${pageMaker.makeQuery(1)}'
+							var pageNumQuery = '${pageMaker.makeQuery(1)}';
+							if (pageNumQuery.indexOf('?') > -1) {
+								pageNumQuery = pageNumQuery.replace('?', '&');
+							}
+							self.location = "list?board_id=${cri.board_id}"
+									+ pageNumQuery
 									+ "&searchType="
 									+ $("select option:selected").val()
 									+ "&keyword=" + $('#keywordInput').val();
@@ -154,9 +165,7 @@
 						});
 
 				$('#newBtn').on("click", function(evt) {
-
-					self.location = "register";
-
+					self.location = "register?board_id=${cri.board_id}";
 				});
 
 			});

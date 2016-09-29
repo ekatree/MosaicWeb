@@ -7,6 +7,10 @@
 <head>
 	<title>register.jsp</title>
 <style>
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* {font-family: 'Nanum Gothic', sans-serif;}
+
+
 .fileDrop {
   width: 80%;
   height: 100px;
@@ -15,6 +19,15 @@
   margin: auto;
   
 }
+
+img{
+	width:100%;
+}
+
+
+.main-sidebar, .main-footer {	display: none;}
+.content-wrapper {	margin: 0px;}
+
 </style>
 </head>
 <body>
@@ -26,11 +39,13 @@
 			<!-- general form elements -->
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">REGISTER BOARD</h3>
+					<h3 class="box-title">BOARD LIST</h3>
 				</div>
 				<!-- /.box-header -->
 
 <form id='registerForm' role="form" method="post">
+	<!-- 전달받은 board_id 값을 jstl 로 받아서 form 안에 hidden 값으로 저장 -->
+	<input type="hidden" id="board_id" name="board_id" value="${board_id }" />
 	<div class="box-body">
 		<div class="form-group">
 			<label for="exampleInputEmail1">Title</label> <input type="text"
@@ -86,7 +101,7 @@
 <script id="template" type="text/x-handlebars-template">
 <li>
   <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
-  <div class="mailbox-attachment-info">
+  <div class="mailbox-attachment-info" style="display:none;">
 	<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
 	<a href="{{fullName}}" 
      class="btn btn-default btn-xs pull-right delbtn"><i class="fa fa-fw fa-remove"></i></a>
@@ -133,6 +148,25 @@ $(".fileDrop").on("drop", function(event){
 		  }
 		});	
 });
+
+$(".uploadedList").on("click", ".delbtn", function(event){
+	   
+	   event.preventDefault();
+	   
+	   var that = $(this);
+	    
+	   $.ajax({
+	      url:"/deleteFile",
+	      type:"post",
+	      data: {fileName:$(this).attr("href")},
+	      dataType:"text",
+	      success:function(result){
+	         if(result == 'deleted'){
+	            that.closest("li").remove();
+	         }
+	      }
+	   });
+	});
 
 
 $("#registerForm").submit(function(event){

@@ -29,7 +29,5 @@
    		<li>Bootstrap</li>
    </ul>
 
-   
->>>>>>> 5981b163bdaaf1e15c93e49654200c3d73fdf93e
 </body>
 </html>

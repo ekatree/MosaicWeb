@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.zerock.mapper.BoardMapper">
 
 	<insert id="create">
-		insert into tbl_board (title, content, writer)
-		values(#{title},#{content}, #{writer})
+		insert into tbl_board (title, content, writer, board_id)
+		values(#{title},#{content}, #{writer}, #{board_id})
 	</insert>
 
 	<select id="read" resultType="org.zerock.domain.BoardVO">
@@ -32,10 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listPage" resultType="BoardVO">
  <![CDATA[
  select 
-   bno, title, content, writer, regdate, viewcnt , replycnt
+  board_id, bno, title, content, writer, regdate, viewcnt , replycnt
  from 
    tbl_board 
- where bno > 0 
+ where bno > 0
  order by bno desc, regdate desc
  limit #{page}, 10
  ]]>
@@ -43,15 +43,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listCriteria" resultType="BoardVO">
  <![CDATA[
- select 
-   bno, title, content, writer, regdate, viewcnt , replycnt
- from 
-   tbl_board 
- where bno > 0 
- order by bno desc, regdate desc
- limit #{pageStart}, #{perPageNum}
+select A.* from(
+ select @rownum:=@rownum +1 as rnum, tbl_board.* from 
+ (select * from tbl_board where board_id = #{board_id} order by bno asc) tbl_board, (select @rownum:=0) 
+R ) A 
+order by A.rnum desc
+limit #{pageStart}, #{perPageNum}
  ]]>
 	</select>
+
+
+<!-- <select id="listCriteria" resultType="BoardVO"> -->
+<!--  <![CDATA[ -->
+<!--  select  -->
+<!--    bno, title, content, writer, name, phone, regdate, viewcnt , replycnt -->
+<!--  from  -->
+<!--    tbl_board  -->
+<!--  where bno > 0  -->
+<!--  order by bno desc, regdate desc -->
+<!--  limit #{pageStart}, #{perPageNum} -->
+<!--  ]]> -->
+<!--    </select> -->
+
+
 
 
 	<update id="update">
@@ -71,14 +85,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    count(bno) 
  from 
    tbl_board 
- where 
-   bno > 0 
+ where 1=1 and board_id = #{board_id}
  ]]>
 	</select>
 
+	<select id="listSearch" resultType="BoardVO">
+		<![CDATA[  
+		select A.* ,(select fullName from tbl_attach where bno = A.bno) as fullName from(
+		 select @rownum:=@rownum +1 as rnum, tbl_board.* from 
+		 	(select * from tbl_board where board_id = #{board_id} order by bno asc) tbl_board, (select @rownum:=0) R ) A 
+		]]>
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				where A.title like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				where A.content like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				where A.writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				where ( A.title like CONCAT('%', #{keyword}, '%') OR A.content like
+				CONCAT('%', #{keyword}, '%'))
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				where ( A.content like CONCAT('%', #{keyword}, '%') OR A.writer like
+				CONCAT('%', #{keyword}, '%'))
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				where ( A.title like CONCAT('%', #{keyword}, '%')
+				OR
+				A.content like CONCAT('%', #{keyword}, '%')
+				OR
+				A.writer like CONCAT('%', #{keyword}, '%'))
+			</if>
+		</if>
+		<![CDATA[
+		order by A.rnum desc
+		]]>
+		   
+		   
+		<![CDATA[    
+		  limit #{pageStart}, #{perPageNum}
+		]]>
+	
+	</select>
 
-
-	<sql id="search">
+<!-- 페이징 처리 -->
+	<select id="listSearchCount" resultType="int">
+		<![CDATA[  
+		  select count(bno) 
+		  from tbl_board 
+		  where bno > 0 
+		  and board_id = #{board_id}
+		]]>
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()">
 				and title like CONCAT('%', #{keyword}, '%')
@@ -105,30 +166,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				writer like CONCAT('%', #{keyword}, '%'))
 			</if>
 		</if>
-	</sql>
-
-	<select id="listSearch" resultType="BoardVO">
-<![CDATA[  
-  select * 
-  from tbl_board 
-  where bno > 0 
-]]>
-
-		<include refid="search"></include>
-  
-<![CDATA[    
-  order by bno desc
-  limit #{pageStart}, #{perPageNum}
-]]>
-	</select>
-
-	<select id="listSearchCount" resultType="int">
-<![CDATA[  
-  select count(bno) 
-  from tbl_board 
-  where bno > 0 
-]]>
-		<include refid="search"></include>
 
 	</select>
 

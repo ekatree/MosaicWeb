@@ -116,7 +116,7 @@
 
 
 
-		<!-- AspectJ -->
+		<!-- AspectJ Weaver -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>

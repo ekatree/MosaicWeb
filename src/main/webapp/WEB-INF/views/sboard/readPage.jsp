@@ -14,17 +14,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <!-- Main content -->
     <style type="text/css">
+  	@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+	* {font-family: 'Nanum Gothic', sans-serif;}
+    .main-sidebar, .main-footer {	display: none;}
+	.content-wrapper {	margin: 0px;}
     .popup {position: absolute;}
     .back { background-color: gray; opacity:0.5; width: 100%; height: 300%; overflow:hidden;  z-index:1101;}
-    .front { 
-       z-index:1110; opacity:1; boarder:1px; margin: auto; 
-      }
+    .front {z-index:1110; opacity:1; boarder:1px; margin: auto;}
      .show{
        position:relative;
        max-width: 1200px; 
        max-height: 800px; 
        overflow: auto;       
      } 
+  	
+  	img{width: 100%;}
   	
     </style>
 </head>
@@ -37,7 +41,7 @@
 
 	<div class="row"><!-- grid Bootstrap -->
 		<!-- left column -->
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<!-- general form elements -->
 			<div class="box box-primary">
 				<div class="box-header">
@@ -46,7 +50,7 @@
 				<!-- /.box-header -->
 
 				<form role="form" action="modifyPage" method="post">
-
+					
 					<input type='hidden' name='bno' value="${boardVO.bno}"> <input
 						type='hidden' name='page' value="${cri.page}"> <input
 						type='hidden' name='perPageNum' value="${cri.perPageNum}">
@@ -94,9 +98,6 @@
 			<!-- /.box -->
 		</div>
 		<!--/.col (left) -->
-		<div class="col-md-6">
-			<img class="img-responsive img-circle" style="width:100%" alt="xxx" src="http://www.loremflickr.com/200/200/korea"/>
-	</div>
 	<!-- /.row -->
 
 
@@ -190,13 +191,16 @@
 
 
 	<script id="templateAttach" type="text/x-handlebars-template">
-	<li data-src='{{fullName}}'>
-  			<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
-  		<div class="mailbox-attachment-info">
-				<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
-			</span>
-  		</div>
-	</li>                
+	
+      <li data-src='{{fullName}}'>
+           <span class="mailbox-attachment-icon has-img">
+            <a href="{{getLink}}"><img src="{{imgsrc}}" alt="Attachment"></a>
+         </span>
+         <div class="mailbox-attachment-info" style="display:none;">
+              <a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
+            </span>
+          </div>
+      </li>                               
 	</script>  
 
 
@@ -410,7 +414,7 @@ $(document).ready(function(){
 	console.log(formObj);
 	
 	$("#modifyBtn").on("click", function(){
-		formObj.attr("action", "/sboard/modifyPage");
+		formObj.attr("action", "/sboard/modifyPage?board_id=${cri.board_id}");
 		formObj.attr("method", "get");		
 		formObj.submit();
 	});
@@ -441,13 +445,13 @@ $(document).ready(function(){
 			});
 		}
 		
-		formObj.attr("action", "/sboard/removePage");
+		formObj.attr("action", "/sboard/removePage?board_id=${cri.board_id}");
 		formObj.submit();
 	});	
 	
 	$("#goListBtn ").on("click", function(){
 		formObj.attr("method", "get");
-		formObj.attr("action", "/sboard/list");
+		formObj.attr("action", "/");
 		formObj.submit();
 	});
 	
